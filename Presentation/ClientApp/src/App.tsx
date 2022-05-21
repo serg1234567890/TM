@@ -1,16 +1,16 @@
 import './custom.css'
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import Counter from './components/Counter';
 import Home from './components/Home';
 import FetchData from './components/FetchData';
 
 const App: React.FunctionComponent = () => {
     return <>
-        <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/counter' component={Counter} />
-            <Route path='/fetch-data' component={FetchData} />
-        </Switch>
+        <Routes>
+            <Route path='/' element={<Home/>} />
+            <Route path='/counter' element={<Counter/>} />
+            <Route path='/fetch-data' element={<FetchData/>} />
+        </Routes>
     </>
 }
 
