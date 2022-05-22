@@ -11,7 +11,7 @@ namespace TemperatureMonitor.Application.Database
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<SensorEntity> Sensors { get; set; }
         public DbSet<PlacementEntity> Placements { get; set; }
-        public DbSet<PlacementSensorEntity> PlacementSensors { get; set; }
+        public DbSet<PlacementTypeEntity> PlacementTypes { get; set; }
         public DbSet<CottageEntity> Сottages { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -30,6 +30,9 @@ namespace TemperatureMonitor.Application.Database
             modelBuilder.Entity<UserEntity>()
                 .HasIndex(b => b.RoleId)
                 .IsUnique();
+            modelBuilder.Entity<SensorEntity>()
+                .HasIndex(b => b.PlacementId)
+                .IsUnique();
         }
 
         private void SetDeleteBehavior(ModelBuilder modelBuilder)
@@ -44,11 +47,11 @@ namespace TemperatureMonitor.Application.Database
         private void SeedDatabase(ModelBuilder modelBuilder)
         {
             var roles = SeedRoles.SeedDatabase(modelBuilder);
-            var users = SeedUsers.SeedDatabase(modelBuilder);
-            var sensors = SeedSensor.SeedDatabase(modelBuilder);
+            var users = SeedUsers.SeedDatabase(modelBuilder, roles);
             var placementTypes = SeedPlacementType.SeedDatabase(modelBuilder);
-            var placements = SeedPlacement.SeedDatabase(modelBuilder, placementTypes);
-            var cottages = SeedСottage.SeedDatabase(modelBuilder, users);
+            var cottages = SeedCottage.SeedDatabase(modelBuilder, users);
+            var placements = SeedPlacement.SeedDatabase(modelBuilder, placementTypes, cottages);
+            var sensors = SeedSensor.SeedDatabase(modelBuilder, placements);
         }
     }
 }

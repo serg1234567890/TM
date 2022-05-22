@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,5 +19,10 @@ namespace TemperatureMonitor.Application.Database.Entities
         public Guid PlacementTypeId { get; set; }
         [ForeignKey("PlacementTypeId")]
         public PlacementTypeEntity PlacementType { get; set; }
+        public IList<SensorEntity> Sensors { get; set; }
+        public PlacementEntity()
+        {
+            Sensors = new List<SensorEntity>();
+        }
     }
 }

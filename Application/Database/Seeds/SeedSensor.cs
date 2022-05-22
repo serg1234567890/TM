@@ -9,15 +9,19 @@ namespace TemperatureMonitor.Application.Database.Seed
 {
     public static class SeedSensor
     {
-        public static IList<SensorEntity> SeedDatabase(ModelBuilder modelBuilder)
+        public static IList<SensorEntity> SeedDatabase(ModelBuilder modelBuilder,
+            IList<PlacementEntity> placements)
         {
-            var sensors = new SensorEntity[] {
-                new SensorEntity
+            var sensors = new List<SensorEntity>();
+            foreach (var placement in placements)
+            {
+                sensors.Add(new SensorEntity
                 {
                     Id = Guid.NewGuid(),
-                    Type=Constants.SensorTypeTemperature,
-                }
-            }.ToList();
+                    Type = Constants.SensorTypeTemperature,
+                    PlacementId = placement.Id
+                });
+            }
 
             sensors.ToList().ForEach(e => modelBuilder.Entity<SensorEntity>().HasData(e));
 

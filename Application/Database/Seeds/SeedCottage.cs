@@ -7,7 +7,7 @@ using TemperatureMonitor.Application.Common;
 
 namespace TemperatureMonitor.Application.Database.Seed
 {
-    public static class SeedСottage
+    public static class SeedCottage
     {
         public static IList<CottageEntity> SeedDatabase(ModelBuilder modelBuilder,
            IList<UserEntity> users)
@@ -15,8 +15,7 @@ namespace TemperatureMonitor.Application.Database.Seed
             var cottages = new List<CottageEntity>();
             foreach (var user in users)
             {
-                var rolePerson = user.UserRoles.FirstOrDefault(a => a.Role.Name == Constants.UserRolePerson);
-                if (rolePerson != null)
+                if (user.Role.Name == Constants.UserRolePerson)
                 {
                     string number = user.Name.Replace(Constants.UserRolePerson, string.Empty);
                     cottages.Add(new CottageEntity
