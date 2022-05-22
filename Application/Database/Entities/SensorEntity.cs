@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TemperatureMonitor.Application.Database
+namespace TemperatureMonitor.Application.Database.Entities
 {
     /// <summary>
     /// Датчик температуры

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TemperatureMonitor.Application.Database
+namespace TemperatureMonitor.Application.Database.Entities
 {
     public class UserRoleEntity
     {
@@ -11,6 +11,8 @@ namespace TemperatureMonitor.Application.Database
         public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public UserEntity User { get; set; }
-        public string Role { get; set; }
+        public Guid RoleId { get; set; }
+        [ForeignKey("RoleId")]
+        public RoleEntity Role { get; set; }
     }
 }

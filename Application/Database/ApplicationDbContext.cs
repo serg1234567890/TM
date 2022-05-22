@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using TemperatureMonitor.Application.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using TemperatureMonitor.Application.Database.Seed;
 
 namespace TemperatureMonitor.Application.Database
 {
@@ -19,6 +21,7 @@ namespace TemperatureMonitor.Application.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetDeleteBehavior(modelBuilder);
+            SeedDatabase(modelBuilder);
         }
 
         private void SetDeleteBehavior(ModelBuilder modelBuilder)
@@ -29,22 +32,13 @@ namespace TemperatureMonitor.Application.Database
             }
         }
 
-        /*
+        
         private void SeedDatabase(ModelBuilder modelBuilder)
         {
-            //var agencies = SeedAgencies.SeedDatabase(modelBuilder);
             var users = SeedUsers.SeedDatabase(modelBuilder);
-            var lookups = SeedLookups.SeedDatabase(modelBuilder);
-            var templates = SeedTemplates.SeedDatabase(modelBuilder);
-            //var boxes = SeedBoxes.SeedDatabase(modelBuilder, users, agencies, lookups);
-            //var zones = SeedZones.SeedDatabase(modelBuilder, users, agencies);
-            //var clients = SeedClients.SeedDatabase(modelBuilder, users, agencies, lookups);
-            //var needs = SeedNeeds.SeedDatabase(modelBuilder, users, clients, lookups);
-            //var actions = SeedActions.SeedDatabase(modelBuilder, users, clients, lookups);
-            //var reservations = SeedReservation.SeedDatabase(modelBuilder, users, clients, boxes, lookups);
-            //var notes = SeedNotes.SeedDatabase(modelBuilder, users, clients, lookups);
-            //var tasks = SeedSyncTask.SeedDatabase(modelBuilder, users, clients, lookups);
+            var roles = SeedRoles.SeedDatabase(modelBuilder);
+            var userRoles = SeedUserRoles.SeedDatabase(modelBuilder, roles, users);
         }
-        */
+        
     }
 }

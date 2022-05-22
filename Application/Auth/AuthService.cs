@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using TemperatureMonitor.Application.Database.Entities;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,7 +20,7 @@ namespace TemperatureMonitor.Application.Auth
 
         public AuthService(IOptions<AppSettings> appSettings, ApplicationDbContext context)
         {
-            _appSettings = appSettings.Value ?? throw new ArgumentNullException(nameof(appSettings.Value));
+            _appSettings = appSettings.Value;
             _context = context;
         }
 

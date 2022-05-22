@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TemperatureMonitor.Application.Database
+namespace TemperatureMonitor.Application.Database.Entities
 {
     /// <summary>
     /// Тип датчика
