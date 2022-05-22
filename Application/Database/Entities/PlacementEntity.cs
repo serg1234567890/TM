@@ -5,15 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace TemperatureMonitor.Application.Database.Entities
 {
     /// <summary>
-    /// Тип датчика
+    /// Тип помещения
     /// </summary>
-    public class SensorTypeEntity
+    public class PlacementEntity
     {
         [Key]
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public Guid SensorId { get; set; }
-        [ForeignKey("SensorId")]
-        public SensorEntity User { get; set; }
+        public string Type { get; set; }
     }
 }
