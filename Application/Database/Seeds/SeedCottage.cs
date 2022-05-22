@@ -15,13 +15,12 @@ namespace TemperatureMonitor.Application.Database.Seed
             var cottages = new List<CottageEntity>();
             foreach (var user in users)
             {
-                if (user.Role.Name == Constants.UserRolePerson)
+                if (user.CottageNumber > 0)
                 {
-                    string number = user.Name.Replace(Constants.UserRolePerson, string.Empty);
                     cottages.Add(new CottageEntity
                     {
                         Id = Guid.NewGuid(),
-                        Number = int.Parse(number),
+                        Number = user.CottageNumber,
                         UserId = user.Id
                     });
                 }

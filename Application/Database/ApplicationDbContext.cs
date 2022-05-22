@@ -23,16 +23,6 @@ namespace TemperatureMonitor.Application.Database
         {
             SetDeleteBehavior(modelBuilder);
             SeedDatabase(modelBuilder);
-
-            modelBuilder.Entity<CottageEntity>()
-                .HasIndex(b => b.UserId)
-                .IsUnique();
-            modelBuilder.Entity<UserEntity>()
-                .HasIndex(b => b.RoleId)
-                .IsUnique();
-            modelBuilder.Entity<SensorEntity>()
-                .HasIndex(b => b.PlacementId)
-                .IsUnique();
         }
 
         private void SetDeleteBehavior(ModelBuilder modelBuilder)

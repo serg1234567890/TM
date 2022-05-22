@@ -22,7 +22,8 @@ namespace TemperatureMonitor.Application.Database.Seed
                     Password = Constants.UserRoleAdmin,
                     FirstName = "Admin first name",
                     LastName = "Admin last name",
-                    RoleId = roleAdmin.Id
+                    RoleId = roleAdmin.Id,
+                    CottageNumber = 0
                 }
             }.ToList();
 
@@ -35,7 +36,8 @@ namespace TemperatureMonitor.Application.Database.Seed
                     Password = Constants.UserRolePerson + i,
                     FirstName = "First name " + i,
                     LastName = "Last name",
-                    RoleId = rolePerson.Id
+                    RoleId = rolePerson.Id,
+                    CottageNumber = i
                 });
             }
 
