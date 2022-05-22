@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TemperatureMonitor.Application.Auth.Interfaces;
 using TemperatureMonitor.Application.Auth.Models;
 using TemperatureMonitor.Application.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace TemperatureMonitor.Application.Auth
 {
@@ -29,7 +30,8 @@ namespace TemperatureMonitor.Application.Auth
             AuthenticatedUser authenticatedUser = null;
             var utcNow = DateTime.UtcNow;
 
-            var userEntity = _context.Users.FirstOrDefault(e => e.Name == authenticatingUser.Name);
+            var userEntity = _context.Users
+                .Include(a => a.Role).FirstOrDefault(e => e.Name == authenticatingUser.Name);
 
             if (userEntity != null && userEntity.Password == authenticatingUser.Password)
             {
@@ -38,7 +40,8 @@ namespace TemperatureMonitor.Application.Auth
                     Id = userEntity.Id.ToString(),
                     FirstName = userEntity.FirstName,
                     LastName = userEntity.LastName,
-                    Token = GetToken(userEntity)
+                    Token = GetToken(userEntity),
+                    Role = userEntity.Role.Name
                 };
             }
 
