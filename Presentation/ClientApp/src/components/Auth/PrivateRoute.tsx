@@ -1,14 +1,18 @@
-﻿import { Route, Redirect } from "react-router";
+﻿import { Navigate, useLocation } from "react-router";
 import { isAuthenticated } from "../../tools/auth";
 
-//@ts-ignore
-const PrivateRoute = ({ component: Component, ...rest }) => {
-
-    return <Route {...rest} render={props => (
-        isAuthenticated() ?
-            <Component {...props} />
-        : <Redirect to={{ pathname: "/login", state: { from: rest.location } }} />
-    )} />;
+const PrivateRoute = (props: { children: React.ReactNode }) => {
+    const { children } = props;
+    const location = useLocation();
+    return <>
+        {isAuthenticated() ?
+            <>{children}</>
+            : <Navigate
+                replace={true}
+                to="/login"
+                state={{ from: `${location.pathname}${location.search}` }}
+            />
+        }</>
 };
 
 export default PrivateRoute;

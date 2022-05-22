@@ -1,16 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-import ReactDOM from 'react-dom';
 import App from './App';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
-
-ReactDOM.render(
-    <BrowserRouter basename={baseUrl != null ? baseUrl : undefined}>
-        <App />
-    </BrowserRouter>,
-    rootElement);
-
-
+const container = document.getElementById('root');
+const root = createRoot(container!)
+root.render(<BrowserRouter><App /></BrowserRouter>);

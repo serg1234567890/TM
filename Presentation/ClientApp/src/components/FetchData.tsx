@@ -37,7 +37,7 @@ const FetchData: React.FunctionComponent = () => {
                     <tbody>
                         {forecasts.map(forecast =>
                             <tr key={''+forecast.date}>
-                                <td>{forecast.date}</td>
+                                <td>{''+forecast.date}</td>
                                 <td>{forecast.temperatureC}</td>
                                 <td>{forecast.temperatureF}</td>
                                 <td>{forecast.summary}</td>
