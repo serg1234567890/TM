@@ -6,7 +6,7 @@ using TemperatureMonitor.Application.Auth.Models;
 
 namespace TemperatureMonitor.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace TemperatureMonitor.Presentation.Controllers
 	        return NoContent();
         }
 
-        [Route("Login")]
+        [Route("login")]
         [HttpPost]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticatingUser authenticatingUser)
         {

@@ -1,4 +1,4 @@
 ﻿
 export enum API {
-    LOGIN = 'login'
+    LOGIN = 'auth/login'
 }
