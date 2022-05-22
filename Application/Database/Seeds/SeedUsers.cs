@@ -9,14 +9,20 @@ namespace TemperatureMonitor.Application.Database.Seed
 {
     public static class SeedUsers
     {
-        public static IList<UserEntity> SeedDatabase(ModelBuilder modelBuilder)
+        public static IList<UserEntity> SeedDatabase(ModelBuilder modelBuilder,
+            IList<RoleEntity> roles)
         {
+            var roleAdmin = roles.FirstOrDefault(a => a.Name == Constants.UserRolePerson);
+            var rolePerson = roles.FirstOrDefault(a => a.Name == Constants.UserRolePerson);
             var users = new UserEntity[] {
                 new UserEntity
                 {
                     Id = Guid.NewGuid(),
                     Name=Constants.UserRoleAdmin,
-                    Password = Constants.UserRoleAdmin
+                    Password = Constants.UserRoleAdmin,
+                    FirstName = "Admin first name",
+                    LastName = "Admin last name",
+                    RoleId = roleAdmin.Id
                 }
             }.ToList();
 
@@ -28,7 +34,8 @@ namespace TemperatureMonitor.Application.Database.Seed
                     Name = Constants.UserRolePerson + i,
                     Password = Constants.UserRolePerson + i,
                     FirstName = "First name " + i,
-                    LastName = "Last name"
+                    LastName = "Last name",
+                    RoleId = rolePerson.Id
                 });
             }
 

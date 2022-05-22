@@ -9,10 +9,10 @@ namespace TemperatureMonitor.Application.Database.Entities
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public IList<UserRoleEntity> UserRoles { get; set; }
+        public IList<UserEntity> Users { get; set; }
         public RoleEntity()
         {
-            UserRoles = new List<UserRoleEntity>();
+            Users = new List<UserEntity>();
         }
     }
 }

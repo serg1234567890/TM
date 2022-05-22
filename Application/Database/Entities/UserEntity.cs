@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TemperatureMonitor.Application.Database.Entities
 {
@@ -12,10 +13,8 @@ namespace TemperatureMonitor.Application.Database.Entities
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public IList<UserRoleEntity> UserRoles { get; set; }
-        public UserEntity()
-        {
-            UserRoles = new List<UserRoleEntity>();
-        }
+        public Guid RoleId { get; set; }
+        [ForeignKey("RoleId")]
+        public RoleEntity Role { get; set; }
     }
 }
