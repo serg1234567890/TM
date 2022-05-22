@@ -10,6 +10,7 @@ namespace TemperatureMonitor.Application.Database
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<SensorEntity> Sensors { get; set; }
+        public DbSet<SensorTypeEntity> SensorTypes { get; set; }
         public DbSet<PlacementEntity> Placements { get; set; }
         public DbSet<PlacementTypeEntity> PlacementTypes { get; set; }
         public DbSet<CottageEntity> Сottages { get; set; }
@@ -41,7 +42,8 @@ namespace TemperatureMonitor.Application.Database
             var placementTypes = SeedPlacementType.SeedDatabase(modelBuilder);
             var cottages = SeedCottage.SeedDatabase(modelBuilder, users);
             var placements = SeedPlacement.SeedDatabase(modelBuilder, placementTypes, cottages);
-            var sensors = SeedSensor.SeedDatabase(modelBuilder, placements);
+            var sensorTypes = SeedSensorType.SeedDatabase(modelBuilder);
+            var sensors = SeedSensor.SeedDatabase(modelBuilder, sensorTypes, placementTypes, placements);
         }
     }
 }
