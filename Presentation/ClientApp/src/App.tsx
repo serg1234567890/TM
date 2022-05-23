@@ -1,19 +1,14 @@
 import './custom.css'
 import { Route, Routes } from 'react-router';
-import Counter from './components/Counter';
 import PrivateRoute from './components/Auth/PrivateRoute';
 import Login from './components/Auth/Login';
-import NavMenu from './components/NavMenu';
 import Monitor from './components/Monitor/Monitor';
-import Home from './components/Home';
 import HistoryData from './components/Monitor/HistoryData';
 
 const App: React.FunctionComponent = () => {
     return <>
-        <NavMenu />
         <Routes>
-            <Route path='/' element={<PrivateRoute> <Home /> </PrivateRoute>} />
-            <Route path='/counter' element={<Counter/>} />
+            <Route path='/' element={<PrivateRoute> <Monitor /> </PrivateRoute>} />
             <Route path='/monitor' element={<Monitor />} />
             <Route path='/history' element={<HistoryData />} />
             <Route path='/login' element={<Login />} />
