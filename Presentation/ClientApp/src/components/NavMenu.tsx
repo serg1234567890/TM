@@ -24,10 +24,10 @@ const NavMenu: React.FunctionComponent = () => {
                                 <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="/monitor">Monitor</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/monitor">Monitor</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="/history">History</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>

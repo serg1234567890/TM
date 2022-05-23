@@ -10,5 +10,6 @@ namespace TemperatureMonitor.Application.Monitor.Interfaces
     public interface IMonitorService
     {
         Task<IList<CottageData>> List(Guid userId);
+        Task<IList<HistoryData>> History(Guid userId, Guid cottageId, string type);
     }
 }

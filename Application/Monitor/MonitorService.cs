@@ -27,9 +27,6 @@ namespace TemperatureMonitor.Application.Monitor
             var user = await _context.Users
                 .Include(a => a.Role).Where(u => u.Id == userId).FirstOrDefaultAsync();
 
-            //user.Role.Name == Constants.UserRoleAdmin ||
-            //user.Role.Name == Constants.UserRolePerson && a.Placement.Cottage.Number == user.CottageNumber)
-
             var lastValues = await _context.Sensors
                 .Include(a => a.SensorType)
                 .Include(a => a.Placement).ThenInclude(a => a.PlacementType)
@@ -64,6 +61,34 @@ namespace TemperatureMonitor.Application.Monitor
                         KitchenTemperature = kitchenTemperature.SensorValue,
                         HallTemperature = hallTemperature.SensorValue,
                         HeatingTemperature = heatingTemperature.SensorValue
+                    }
+                );
+            }
+            return result;
+        }
+
+        public async Task<IList<HistoryData>> History(Guid userId, Guid cottageId, string type)
+        {
+            var user = await _context.Users
+                .Include(a => a.Role).Where(u => u.Id == userId).FirstOrDefaultAsync();
+
+            var historyValues = await _context.Sensors
+                .Include(a => a.SensorType)
+                .Include(a => a.Placement).ThenInclude(a => a.PlacementType)
+                .Include(a => a.Placement).ThenInclude(a => a.Cottage)
+                .Where(a => a.Placement.CottageId == cottageId && a.Placement.PlacementType.Type == type)
+                .OrderByDescending(a => a.ChangeTime)
+                .Take(_appSettings.Monitor.TotalSensors).ToListAsync();
+
+            var result = new List<HistoryData>();
+            foreach (var history in historyValues)
+            {
+                result.Add(
+                    new HistoryData()
+                    {
+                        Id = history.Id.ToString(),
+                        ChangeTime = history.ChangeTime.ToString("dd/MM/yyyy  HH:mm:ss"),
+                        SensorValue = history.SensorValue
                     }
                 );
             }
