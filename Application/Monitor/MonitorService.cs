@@ -24,17 +24,19 @@ namespace TemperatureMonitor.Application.Monitor
 
         public async Task<IList<CottageData>> List(Guid userId)
         {
-            var user = await _context.Users.Include(a => a.Role).Where(u => u.Id == userId).FirstOrDefaultAsync();
+            var user = await _context.Users
+                .Include(a => a.Role).Where(u => u.Id == userId).FirstOrDefaultAsync();
 
             //user.Role.Name == Constants.UserRoleAdmin ||
             //user.Role.Name == Constants.UserRolePerson && a.Placement.Cottage.Number == user.CottageNumber)
 
             var lastValues = await _context.Sensors
-                .Include(a => a.SensorType).ToListAsync();
-                //.Include(a => a.Placement).ThenInclude(a => a.PlacementType).ToListAsync();
-                //.Where(a => a.Placement.Cottage.Number == user.CottageNumber)
-                //.OrderByDescending(a => a.ChangeTime)
-                //.Take(_appSettings.Monitor.TotalSensors).ToList();
+                .Include(a => a.SensorType)
+                .Include(a => a.Placement).ThenInclude(a => a.PlacementType)
+                .Include(a => a.Placement).ThenInclude(a => a.Cottage)
+                .Where(a => user.CottageNumber == 0 || user.CottageNumber != 0 && a.Placement.Cottage.Number == user.CottageNumber)
+                .OrderByDescending(a => a.ChangeTime)
+                .Take(_appSettings.Monitor.TotalSensors).ToListAsync();
 
             var cottageIds = lastValues.GroupBy(a => a.Placement.CottageId).Select(a => a.Key);
             var cottages = _context.Сottages.Where(a => cottageIds.Contains(a.Id));

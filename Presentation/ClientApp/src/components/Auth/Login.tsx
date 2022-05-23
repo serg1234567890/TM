@@ -1,7 +1,7 @@
 ﻿import * as React from "react";
 import { useState } from "react";
 import { API } from "../../tools/api";
-import { setAuthenticatedUser } from "../../tools/auth";
+import { removeAuthenticatedUser, setAuthenticatedUser } from "../../tools/auth";
 import { Method, request } from "../../tools/request";
 import { AuthenticatingUser } from "./models/AuthenticatingUser";
 
@@ -12,6 +12,7 @@ const Login: React.FunctionComponent = () => {
     const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
         // Preventing the page from reloading
         event.preventDefault();
+        removeAuthenticatedUser();
 
         (async () => {
             const authenticatingUser: AuthenticatingUser = {

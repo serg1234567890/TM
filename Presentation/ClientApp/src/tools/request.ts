@@ -7,7 +7,7 @@ export function request(cmd = '', body = '', method = 'GET') {
     //headers.append('Accept', 'application/json');
 
     const token = getToken();
-    headers.append('Authorization', `Bearer ${token}`);
+    if (token) headers.append('Authorization', `Bearer ${token}`);
 
     console.log(token);
     const requestInit: RequestInit = method === 'GET' ? {
@@ -20,7 +20,7 @@ export function request(cmd = '', body = '', method = 'GET') {
         method: method, // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
+        credentials: token ? 'include' : 'same-origin', // include, *same-origin, omit
         headers: headers,
         body: body
     };

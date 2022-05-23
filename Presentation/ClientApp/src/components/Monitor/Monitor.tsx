@@ -21,14 +21,14 @@ const FetchData: React.FunctionComponent = () => {
     return <> {
         loading ? <p><em>Loading...</em></p> :
         <div>
-            <h1 id="tabelLabel" >Текущие показания</h1>
+            <h1 id="tabelLabel" >Current values</h1>
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th>Номер коттеджа</th>
-                            <th>Температура на кухне</th>
-                            <th>Температура в коридоре</th>
-                            <th>Температура отопления</th>
+                            <th>Cottage number</th>
+                            <th>Kitchen temperature</th>
+                            <th>Hall temperature</th>
+                            <th>Heating temperature</th>
                         </tr>
                     </thead>
                     <tbody>
