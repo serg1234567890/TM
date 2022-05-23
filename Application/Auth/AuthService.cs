@@ -38,8 +38,7 @@ namespace TemperatureMonitor.Application.Auth
                 authenticatedUser = new AuthenticatedUser
                 {
                     Id = userEntity.Id.ToString(),
-                    FirstName = userEntity.FirstName,
-                    LastName = userEntity.LastName,
+                    Name = userEntity.Name,
                     Token = GetToken(userEntity),
                     Role = userEntity.Role.Name
                 };

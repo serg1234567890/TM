@@ -20,8 +20,6 @@ namespace TemperatureMonitor.Application.Database.Seed
                     Id = Guid.NewGuid(),
                     Name=Constants.UserRoleAdmin,
                     Password = Constants.UserRoleAdmin,
-                    FirstName = "Admin first name",
-                    LastName = "Admin last name",
                     RoleId = roleAdmin.Id,
                     CottageNumber = 0
                 }
@@ -34,8 +32,6 @@ namespace TemperatureMonitor.Application.Database.Seed
                     Id = Guid.NewGuid(),
                     Name = Constants.UserRolePerson + i,
                     Password = Constants.UserRolePerson + i,
-                    FirstName = "First name " + i,
-                    LastName = "Last name",
                     RoleId = rolePerson.Id,
                     CottageNumber = i
                 });

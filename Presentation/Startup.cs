@@ -68,6 +68,7 @@ namespace Presentation
                     Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly("Application")));
 
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
 
             services.AddScoped<IAuthService, AuthService>();

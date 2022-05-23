@@ -32,7 +32,7 @@ namespace TemperatureMonitor.Application.Database.Seed
                 for (var i = 0; i < 20; i++)
                 {
                     var shift = random.Next(-1000, 1000) / 1000.0f;
-                    date = date.AddMinutes(5);
+                    date = date.AddMinutes(-10);
                     sensors.Add(new SensorEntity
                     {
                         Id = Guid.NewGuid(),

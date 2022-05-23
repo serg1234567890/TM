@@ -1,7 +1,6 @@
 ﻿export interface AuthenticatedUser {
     id: string;
-    firstName: string;
-    lastName: string;
+    name: string;
     token: string;
     role: string;
 }
