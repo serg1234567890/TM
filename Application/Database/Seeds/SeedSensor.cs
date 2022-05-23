@@ -27,12 +27,12 @@ namespace TemperatureMonitor.Application.Database.Seed
             var date = DateTime.Today;
 
             var sensors = new List<SensorEntity>();
-            foreach (var placement in placements)
+            for (var i = 0; i < 20; i++)
             {
-                for (var i = 0; i < 20; i++)
+                date = date.AddMinutes(-10);
+                foreach (var placement in placements)
                 {
                     var shift = random.Next(-1000, 1000) / 1000.0f;
-                    date = date.AddMinutes(-10);
                     sensors.Add(new SensorEntity
                     {
                         Id = Guid.NewGuid(),

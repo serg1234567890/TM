@@ -12,7 +12,7 @@ namespace TemperatureMonitor.Application.Database.Seed
         public static IList<UserEntity> SeedDatabase(ModelBuilder modelBuilder,
             IList<RoleEntity> roles)
         {
-            var roleAdmin = roles.FirstOrDefault(a => a.Name == Constants.UserRolePerson);
+            var roleAdmin = roles.FirstOrDefault(a => a.Name == Constants.UserRoleAdmin);
             var rolePerson = roles.FirstOrDefault(a => a.Name == Constants.UserRolePerson);
             var users = new UserEntity[] {
                 new UserEntity

@@ -6,8 +6,6 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
-
-    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
+    <Folder Include="Auth\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Presentation\Presentation.csproj" />
   </ItemGroup>
 
