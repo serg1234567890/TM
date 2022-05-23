@@ -3,6 +3,7 @@ using TemperatureMonitor.Application.Auth.Interfaces;
 using TemperatureMonitor.Application.Auth.Models;
 using TemperatureMonitor.Application.Database;
 using Presentation;
+using Microsoft.EntityFrameworkCore;
 
 namespace TemperatureMonitor.UnitTests.Auth
 {

@@ -1,6 +1,7 @@
 ﻿import * as React from "react";
 import { useState } from "react";
 import { API } from "../../tools/api";
+import { setAuthenticatedUser } from "../../tools/auth";
 import { Method, request } from "../../tools/request";
 import { AuthenticatingUser } from "./models/AuthenticatingUser";
 
@@ -12,9 +13,6 @@ const Login: React.FunctionComponent = () => {
         // Preventing the page from reloading
         event.preventDefault();
 
-        // Do something 
-        alert(name);
-
         (async () => {
             const authenticatingUser: AuthenticatingUser = {
                 name: name,
@@ -22,7 +20,10 @@ const Login: React.FunctionComponent = () => {
             }
             const content = await request(API.LOGIN, JSON.stringify(authenticatingUser), Method.POST);
 
-            console.log(content);
+            if (content !== 'failed') {
+                setAuthenticatedUser(content);
+                window.location.assign("/");
+            }
         })();
     }
 

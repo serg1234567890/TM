@@ -1,43 +1,71 @@
-﻿using TemperatureMonitor.Application.Database.Entities;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.Extensions.Options;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using TemperatureMonitor.Application.Auth.Models;
 using TemperatureMonitor.Application.Database;
 using Microsoft.EntityFrameworkCore;
 using TemperatureMonitor.Application.Monitor.Interfaces;
-using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using TemperatureMonitor.Application.Monitor.Models;
+using TemperatureMonitor.Application.Common;
+using System;
 
 namespace TemperatureMonitor.Application.Monitor
 {
     public class MonitorService : IMonitorService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AppSettings _appSettings;
         private readonly ApplicationDbContext _context;
 
-        public MonitorService(IOptions<AppSettings> appSettings, ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+        public MonitorService(IOptions<AppSettings> appSettings, ApplicationDbContext context)
         {
             _appSettings = appSettings.Value;
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task List()
+        public async Task<IList<CottageData>> List(Guid userId)
         {
-            var username = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var user = await _context.Users.Include(a => a.Role).Where(u => u.Id == userId).FirstOrDefaultAsync();
 
-            var idClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (idClaim == null) return;
+            //user.Role.Name == Constants.UserRoleAdmin ||
+            //user.Role.Name == Constants.UserRolePerson && a.Placement.Cottage.Number == user.CottageNumber)
 
-            var user = await _context.Users.Where(u => u.Id == Guid.Parse(idClaim.Value)).FirstOrDefaultAsync();
+            var lastValues = await _context.Sensors
+                .Include(a => a.SensorType).ToListAsync();
+                //.Include(a => a.Placement).ThenInclude(a => a.PlacementType).ToListAsync();
+                //.Where(a => a.Placement.Cottage.Number == user.CottageNumber)
+                //.OrderByDescending(a => a.ChangeTime)
+                //.Take(_appSettings.Monitor.TotalSensors).ToList();
 
+            var cottageIds = lastValues.GroupBy(a => a.Placement.CottageId).Select(a => a.Key);
+            var cottages = _context.Сottages.Where(a => cottageIds.Contains(a.Id));
+
+            var result = new List<CottageData>();
+            foreach (var cottage in cottages)
+            {
+                var kitchenTemperature = lastValues.FirstOrDefault(a => 
+                    a.Placement.Cottage.Number == cottage.Number &&
+                    a.Placement.PlacementType.Type == Constants.PlacementTypeKitchen);
+
+                var hallTemperature = lastValues.FirstOrDefault(a =>
+                    a.Placement.Cottage.Number == cottage.Number &&
+                    a.Placement.PlacementType.Type == Constants.PlacementTypeHall);
+
+                var heatingTemperature = lastValues.FirstOrDefault(a =>
+                    a.Placement.Cottage.Number == cottage.Number &&
+                    a.Placement.PlacementType.Type == Constants.PlacementTypeHeating);
+
+                result.Add(
+                    new CottageData()
+                    {
+                        Id = cottage.Id.ToString(),
+                        CottageNumber = cottage.Number,
+                        KitchenTemperature = kitchenTemperature.SensorValue,
+                        HallTemperature = hallTemperature.SensorValue,
+                        HeatingTemperature = heatingTemperature.SensorValue
+                    }
+                );
+            }
+            return result;
         }
     }
 }

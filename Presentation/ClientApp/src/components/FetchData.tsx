@@ -11,6 +11,7 @@ const FetchData: React.FunctionComponent = () => {
         (async () => {
             const response = await fetch('weatherforecast');
             const data = await response.json();
+
             setForecasts(data);
             setLoading(false);
         })();

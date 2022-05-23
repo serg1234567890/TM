@@ -30,8 +30,8 @@ namespace TemperatureMonitor.Application.Auth
             AuthenticatedUser authenticatedUser = null;
             var utcNow = DateTime.UtcNow;
 
-            var userEntity = _context.Users
-                .Include(a => a.Role).FirstOrDefault(e => e.Name == authenticatingUser.Name);
+            var userEntity = await _context.Users
+                .Include(a => a.Role).FirstOrDefaultAsync(e => e.Name == authenticatingUser.Name);
 
             if (userEntity != null && userEntity.Password == authenticatingUser.Password)
             {

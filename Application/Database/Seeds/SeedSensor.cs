@@ -41,7 +41,7 @@ namespace TemperatureMonitor.Application.Database.Seed
                         SensorValue = placement.PlacementTypeId == kitchenType.Id ? kitchenTemp + shift :
                                       placement.PlacementTypeId == hallType.Id ? hallTemp + shift :
                                       heatingTemp + shift,
-                        ChangeTime = date
+                        ChangeTime = date,
 
                     });
                 }

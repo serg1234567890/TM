@@ -14,6 +14,8 @@ using TemperatureMonitor.Application;
 using TemperatureMonitor.Application.Auth;
 using TemperatureMonitor.Application.Auth.Interfaces;
 using TemperatureMonitor.Application.Database;
+using TemperatureMonitor.Application.Monitor;
+using TemperatureMonitor.Application.Monitor.Interfaces;
 
 namespace Presentation
 {
@@ -72,6 +74,7 @@ namespace Presentation
             services.AddControllersWithViews();
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IMonitorService, MonitorService>();
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -103,6 +106,7 @@ namespace Presentation
                .AllowAnyMethod()
                .AllowAnyHeader());
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

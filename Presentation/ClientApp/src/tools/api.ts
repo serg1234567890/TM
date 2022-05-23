@@ -1,4 +1,5 @@
 ﻿
 export enum API {
-    LOGIN = 'auth/login'
+    LOGIN = 'auth/login',
+    MONITOR = 'monitor'
 }
