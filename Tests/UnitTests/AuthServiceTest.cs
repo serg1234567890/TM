@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Presentation;
-using TemperatureMonitor.Application.Auth;
 using TemperatureMonitor.Application.Auth.Interfaces;
 
 namespace TemperatureMonitor.Tests.UnitTests
