@@ -1,57 +1,57 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Chart from 'react-google-charts';
+import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { API } from '../../tools/api';
 import { Method, request } from '../../tools/request';
-import { CottageData } from './models/CottageData';
+import { HistoryValues } from './models/HistoryData';
 
-const HistoryChart: React.FunctionComponent = () => {
+const HistoryChart: React.FunctionComponent<{ show: boolean, onSetShow?: () => void, cottageId: string, cottageNumber: number, placementType: string }> =
+    ({ show, onSetShow, cottageId, cottageNumber, placementType }) => {
 
-    const navigate = useNavigate();
-    const [cottageData, setCottageData] = useState<CottageData[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+        const [loading, setLoading] = React.useState<boolean>(true);
+        const [historyData, setHistoryData] = React.useState<HistoryValues[]>([]);
+        const [history, setHistory] = React.useState<[string[], (string | number)[]]>([[], []]);
 
-    React.useEffect(() => {
-        (async () => {
-            const data = await request(API.MONITOR, undefined, Method.GET);
+        React.useEffect(() => {
+            (async () => {
+                const data = await request(API.MONITOR + "/" + placementType + "/" + cottageId, undefined, Method.GET);
 
-            setCottageData(data);
-            setLoading(false);
-        })();
-    }, []);
+                setHistoryData(data);
+                setLoading(false);
+            })();
+        }, [placementType, cottageId]);
 
-    const onClickHistory = (cottageId: string, cottageNumber: number, placementType: string) => {
-        navigate("/History", { state: { cottageId: cottageId, cottageNumber: cottageNumber, placementType: placementType } });
-    };
+        React.useEffect(() => {
+            let arr: [string[], (string | number)[]] = [[], []];
+            arr.splice(0, arr.length);
+            arr.push(["Date", "Temperature"]);
+            historyData.map((e) => {
+                var item = ['', 0];
+                item[0] = e.changeTime;
+                item[1] = e.sensorValue;
+                arr.push(item);
+                return item;
+            });
+            console.log(arr);
+            setHistory(arr);
+        }, [historyData]);
 
-    return <> {
-        loading ? <p><em>Loading...</em></p> :
-        <div>
-            <h1 id="tabelLabel" >Current values</h1>
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        <tr>
-                            <th>Cottage number</th>
-                            <th>Kitchen temperature</th>
-                            <th>Hall temperature</th>
-                            <th>Heating temperature</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cottageData.map(cottage =>
-                            <tr key={cottage.id}>
-                                <td>{cottage.cottageNumber}</td>
-                                <td>{cottage.kitchenTemperature}<button className="btn" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'kitchen')}>History</button></td>
-                                <td>{cottage.hallTemperature}<button className="btn" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'hall')}>History</button></td>
-                                <td>{cottage.heatingTemperature}<button className="btn" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'heating')}>History</button></td>
-                                <td></td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-        </div>
-    };
-    </>
-}
-
+        return <> {
+            loading ? <p><em>Loading...</em></p> :
+                <Modal isOpen={show} toggle={() => { if (onSetShow) onSetShow() }}>
+                    <ModalHeader>
+                        Temperature history. Cottage {cottageNumber}
+                    </ModalHeader>
+                    <ModalBody>
+                        <Chart
+                            chartType="ScatterChart"
+                            data={history}
+                            width="100%"
+                            height="400px"
+                            legendToggle
+                        />
+                    </ModalBody>
+                </Modal>
+        }</>
+    }
 export default HistoryChart;

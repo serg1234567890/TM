@@ -9,7 +9,7 @@ export function request(cmd = '', body = '', method = 'GET') {
     const token = getToken();
     if (token) headers.append('Authorization', `Bearer ${token}`);
 
-    console.log(token);
+    //console.log(token);
     const requestInit: RequestInit = method === 'GET' ? {
         method: method, // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin
