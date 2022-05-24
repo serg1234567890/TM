@@ -10,7 +10,7 @@ const Monitor: React.FunctionComponent = () => {
 
     const navigate = useNavigate();
     const [cottageData, setCottageData] = useState<CottageData[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [show, setShow] = useState<boolean>(false);
 
     const [cottageId, setCottageId] = useState<string>('');
@@ -19,10 +19,12 @@ const Monitor: React.FunctionComponent = () => {
 
     React.useEffect(() => {
         (async () => {
-            const data = await request(API.MONITOR, undefined, Method.GET);
-
-            setCottageData(data);
-            setLoading(false);
+            setLoading(true);
+            await request(API.MONITOR, undefined, Method.GET)
+                .then((data) => {
+                    setCottageData(data);
+                    setLoading(false);
+                });
         })();
     }, []);
 
@@ -56,16 +58,16 @@ const Monitor: React.FunctionComponent = () => {
                             <tr key={cottage.id}>
                                 <td>{cottage.cottageNumber}</td>
                                 <td>{cottage.kitchenTemperature}
-                                    <button className="btn" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'kitchen')}>History</button>
-                                    <button className="btn" onClick={() => onClickChart(cottage.id, cottage.cottageNumber, 'kitchen')}>Chart</button>
+                                    <button className="btn button-like-href" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'kitchen')}>History</button>
+                                    <button className="btn button-like-href" onClick={() => onClickChart(cottage.id, cottage.cottageNumber, 'kitchen')}>Chart</button>
                                 </td>
                                 <td>{cottage.hallTemperature}
-                                    <button className="btn" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'hall')}>History</button>
-                                    <button className="btn" onClick={() => onClickChart(cottage.id, cottage.cottageNumber, 'hall')}>Chart</button>
+                                    <button className="btn button-like-href" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'hall')}>History</button>
+                                    <button className="btn button-like-href" onClick={() => onClickChart(cottage.id, cottage.cottageNumber, 'hall')}>Chart</button>
                                 </td>
                                 <td>{cottage.heatingTemperature}
-                                    <button className="btn" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'heating')}>History</button>
-                                    <button className="btn" onClick={() => onClickChart(cottage.id, cottage.cottageNumber, 'heating')}>Chart</button>
+                                    <button className="btn button-like-href" onClick={() => onClickHistory(cottage.id, cottage.cottageNumber, 'heating')}>History</button>
+                                    <button className="btn button-like-href" onClick={() => onClickChart(cottage.id, cottage.cottageNumber, 'heating')}>Chart</button>
                                 </td>
                                 <td></td>
                             </tr>

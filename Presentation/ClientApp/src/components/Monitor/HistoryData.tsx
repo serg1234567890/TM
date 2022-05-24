@@ -19,7 +19,7 @@ const HistoryData: React.FunctionComponent = () => {
     const [placementType, setPlacementType] = useState<string>('');
 
     const [historyData, setHistoryData] = useState<HistoryValues[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
 
     React.useEffect(() => {
         if (location.state) {
@@ -28,10 +28,12 @@ const HistoryData: React.FunctionComponent = () => {
             setPlacementType(attr.placementType);
 
             (async () => {
-                const data = await request(API.MONITOR + "/" + attr.placementType + "/" + attr.cottageId, undefined, Method.GET);
-
-                setHistoryData(data);
-                setLoading(false);
+                setLoading(true);
+                await request(API.MONITOR + "/" + attr.placementType + "/" + attr.cottageId, undefined, Method.GET)
+                    .then((data) => {
+                        setHistoryData(data);
+                        setLoading(false);
+                    })
             })();
         }
     }, [location]);

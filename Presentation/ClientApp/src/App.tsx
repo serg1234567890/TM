@@ -4,9 +4,11 @@ import PrivateRoute from './components/Auth/PrivateRoute';
 import Login from './components/Auth/Login';
 import Monitor from './components/Monitor/Monitor';
 import HistoryData from './components/Monitor/HistoryData';
+import NavMenu from './NavMenu';
 
 const App: React.FunctionComponent = () => {
     return <>
+        <NavMenu />
         <Routes>
             <Route path='/' element={<PrivateRoute> <Monitor /> </PrivateRoute>} />
             <Route path='/monitor' element={<Monitor />} />

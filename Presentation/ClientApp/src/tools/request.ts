@@ -1,6 +1,6 @@
 ﻿import { getToken } from "./auth";
 
-export function request(cmd = '', body = '', method = 'GET') {
+export async function request(cmd = '', body = '', method = 'GET') {
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

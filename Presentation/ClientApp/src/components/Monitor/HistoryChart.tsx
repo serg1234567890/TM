@@ -8,16 +8,17 @@ import { HistoryValues } from './models/HistoryData';
 const HistoryChart: React.FunctionComponent<{ show: boolean, onSetShow?: () => void, cottageId: string, cottageNumber: number, placementType: string }> =
     ({ show, onSetShow, cottageId, cottageNumber, placementType }) => {
 
-        const [loading, setLoading] = React.useState<boolean>(true);
+        const [loading, setLoading] = React.useState<boolean>(false);
         const [historyData, setHistoryData] = React.useState<HistoryValues[]>([]);
         const [history, setHistory] = React.useState<[string[], (string | number)[]]>([[], []]);
 
         React.useEffect(() => {
             (async () => {
-                const data = await request(API.MONITOR + "/" + placementType + "/" + cottageId, undefined, Method.GET);
-
-                setHistoryData(data);
-                setLoading(false);
+                await request(API.MONITOR + "/" + placementType + "/" + cottageId, undefined, Method.GET)
+                    .then((data) => {
+                        setHistoryData(data);
+                        setLoading(false);
+                    })
             })();
         }, [placementType, cottageId]);
 

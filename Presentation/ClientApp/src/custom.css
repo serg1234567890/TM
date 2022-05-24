@@ -12,3 +12,11 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.button-like-href {
+    background: none !important;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration:underline;
+}

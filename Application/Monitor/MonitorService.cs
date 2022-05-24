@@ -27,40 +27,37 @@ namespace TemperatureMonitor.Application.Monitor
             var user = await _context.Users
                 .Include(a => a.Role).Where(u => u.Id == userId).FirstOrDefaultAsync();
 
-            var lastValues = await _context.Sensors
+            var lastValues = _context.Sensors
                 .Include(a => a.SensorType)
                 .Include(a => a.Placement).ThenInclude(a => a.PlacementType)
                 .Include(a => a.Placement).ThenInclude(a => a.Cottage)
                 .Where(a => user.CottageNumber == 0 || user.CottageNumber != 0 && a.Placement.Cottage.Number == user.CottageNumber)
                 .OrderByDescending(a => a.ChangeTime)
-                .Take(_appSettings.Monitor.TotalSensors).ToListAsync();
+                .Take(_appSettings.Monitor.TotalSensors);
 
             var cottageIds = lastValues.GroupBy(a => a.Placement.CottageId).Select(a => a.Key);
-            var cottages = _context.Сottages.Where(a => cottageIds.Contains(a.Id));
+            var cottages = await _context.Сottages.Where(a => cottageIds.Contains(a.Id)).ToListAsync();
+
+            var kitchenTemperatures = await lastValues.Where(a =>
+                a.Placement.PlacementType.Type == Constants.PlacementTypeKitchen).ToListAsync();
+
+            var hallTemperatures = await lastValues.Where(a =>
+                a.Placement.PlacementType.Type == Constants.PlacementTypeHall).ToListAsync();
+
+            var heatingTemperatures = await lastValues.Where(a =>
+                a.Placement.PlacementType.Type == Constants.PlacementTypeHeating).ToListAsync();
 
             var result = new List<CottageData>();
             foreach (var cottage in cottages)
             {
-                var kitchenTemperature = lastValues.FirstOrDefault(a => 
-                    a.Placement.Cottage.Number == cottage.Number &&
-                    a.Placement.PlacementType.Type == Constants.PlacementTypeKitchen);
-
-                var hallTemperature = lastValues.FirstOrDefault(a =>
-                    a.Placement.Cottage.Number == cottage.Number &&
-                    a.Placement.PlacementType.Type == Constants.PlacementTypeHall);
-
-                var heatingTemperature = lastValues.FirstOrDefault(a =>
-                    a.Placement.Cottage.Number == cottage.Number &&
-                    a.Placement.PlacementType.Type == Constants.PlacementTypeHeating);
-
                 result.Add(
                     new CottageData()
                     {
                         Id = cottage.Id.ToString(),
                         CottageNumber = cottage.Number,
-                        KitchenTemperature = kitchenTemperature.SensorValue,
-                        HallTemperature = hallTemperature.SensorValue,
-                        HeatingTemperature = heatingTemperature.SensorValue
+                        KitchenTemperature = kitchenTemperatures.FirstOrDefault(a => a.Placement.Cottage.Number == cottage.Number).SensorValue,
+                        HallTemperature = hallTemperatures.FirstOrDefault(a => a.Placement.Cottage.Number == cottage.Number).SensorValue,
+                        HeatingTemperature = heatingTemperatures.FirstOrDefault(a => a.Placement.Cottage.Number == cottage.Number).SensorValue
                     }
                 );
             }
