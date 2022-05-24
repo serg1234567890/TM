@@ -18,7 +18,7 @@ namespace TemperatureMonitor.Presentation.Controllers
         }
 
         [Authorize]
-        [Route("Heartbeat")]
+        [Route("heartbeat")]
         [HttpGet]
         public IActionResult Heartbeat()
         {

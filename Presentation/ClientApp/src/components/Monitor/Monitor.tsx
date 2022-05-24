@@ -73,7 +73,7 @@ const Monitor: React.FunctionComponent = () => {
                     </tbody>
                 </table>
         </div>
-    };
+    }
     </>
 }
 

@@ -57,7 +57,7 @@ const HistoryData: React.FunctionComponent = () => {
                     </tbody>
                 </table>
         </div>
-    };
+    }
     </>
 }
 
