@@ -36,7 +36,7 @@ namespace TemperatureMonitor.Application.Monitor
                 .Take(_appSettings.Monitor.TotalSensors);
 
             var cottageIds = lastValues.GroupBy(a => a.Placement.CottageId).Select(a => a.Key);
-            var cottages = await _context.Сottages.Where(a => cottageIds.Contains(a.Id)).ToListAsync();
+            var cottages = await _context.Cottages.Where(a => cottageIds.Contains(a.Id)).ToListAsync();
 
             var kitchenTemperatures = await lastValues.Where(a =>
                 a.Placement.PlacementType.Type == Constants.PlacementTypeKitchen).ToListAsync();

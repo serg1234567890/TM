@@ -13,7 +13,7 @@ namespace TemperatureMonitor.Application.Database
         public DbSet<SensorTypeEntity> SensorTypes { get; set; }
         public DbSet<PlacementEntity> Placements { get; set; }
         public DbSet<PlacementTypeEntity> PlacementTypes { get; set; }
-        public DbSet<CottageEntity> Сottages { get; set; }
+        public DbSet<CottageEntity> Cottages { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

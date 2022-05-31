@@ -29,7 +29,7 @@ namespace TemperatureMonitor.IntegrationTests.Auth
         public async Task GetKitchenHistory()
         {
             // Arrange
-            var cottage = InitServer.DbContext.Ñottages.FirstOrDefault();
+            var cottage = InitServer.DbContext.Cottages.FirstOrDefault();
             Assert.IsNotNull(cottage);
 
             await Security.SetBearerToken(InitServer.Client, "http://localhost:5000/auth/login", "admin", "admin");
