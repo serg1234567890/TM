@@ -19,11 +19,11 @@ namespace TemperatureMonitor.IntegrationTests
     [TestClass]
     public class InitServer
     {
-        private static string connection = "Server=(localdb)\\MSSQLLocalDB;Database=TemperatureMonitor;Trusted_Connection=True;MultipleActiveResultSets=true";
-        private static TestServer server;
-        private static HttpClient client;
-        private static ApplicationDbContext applicationDbContext;
-        private static UserManager<UserEntity> userManager;
+        static string connection = "Server=(localdb)\\MSSQLLocalDB;Database=TemperatureMonitor;Trusted_Connection=True;MultipleActiveResultSets=true";
+        static TestServer server;
+        static HttpClient client;
+        static ApplicationDbContext applicationDbContext;
+        static UserManager<UserEntity> userManager;
 
         public static TestServer Server { get { return server; } }
         public static HttpClient Client { get { return client; } }
